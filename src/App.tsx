@@ -81,6 +81,8 @@ const STATIC_PREDICTIONS: Record<string, string[]> = {
   "/consent": ["/dashboard", "/appointments"],
 }
 
+const EMAIL_VERIFICATION_MESSAGE_KEY = "curanet.emailVerificationMessage"
+
 export function App() {
   const currentPath = window.location.pathname
   const searchParams = new URLSearchParams(window.location.search)
@@ -185,6 +187,23 @@ export function App() {
   }, [showAuthNotification])
 
   useEffect(() => {
+    if (isPublicEmergencyRoute || accessToken || verificationTokenFromUrl || emailVerificationState.status !== "idle") {
+      return
+    }
+
+    const savedMessage = sessionStorage.getItem(EMAIL_VERIFICATION_MESSAGE_KEY)
+    if (!savedMessage) {
+      return
+    }
+
+    sessionStorage.removeItem(EMAIL_VERIFICATION_MESSAGE_KEY)
+    setEmailVerificationState({ status: "success", message: savedMessage })
+    setAuthMode("login")
+    setAuthErrors([])
+    showAuthNotification("Email verified", savedMessage)
+  }, [accessToken, emailVerificationState.status, isPublicEmergencyRoute, showAuthNotification, verificationTokenFromUrl])
+
+  useEffect(() => {
     if (isPublicEmergencyRoute) {
       return
     }
@@ -207,6 +226,7 @@ export function App() {
         if (!isMounted) return
 
         const message = response.message || "Your email has been verified. You can sign in now."
+        sessionStorage.setItem(EMAIL_VERIFICATION_MESSAGE_KEY, message)
         setEmailVerificationState({
           status: "success",
           message,

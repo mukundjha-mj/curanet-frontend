@@ -126,4 +126,17 @@
   html {
     @apply font-sans;
     }
+
+  /* Keep browser autofill from forcing white backgrounds on dark themed inputs */
+  input[data-slot="input"]:-webkit-autofill,
+  input[data-slot="input"]:-webkit-autofill:hover,
+  input[data-slot="input"]:-webkit-autofill:focus,
+  input[data-slot="input"]:-webkit-autofill:active {
+    -webkit-text-fill-color: var(--color-foreground) !important;
+    caret-color: var(--color-foreground) !important;
+    -webkit-box-shadow: 0 0 0 1000px var(--color-card) inset !important;
+    box-shadow: 0 0 0 1000px var(--color-card) inset !important;
+    border-color: var(--color-border) !important;
+    transition: background-color 5000s ease-in-out 0s;
+  }
 }

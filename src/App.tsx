@@ -83,8 +83,13 @@ const STATIC_PREDICTIONS: Record<string, string[]> = {
 
 export function App() {
   const currentPath = window.location.pathname
+  const searchParams = new URLSearchParams(window.location.search)
   const emergencyTokenMatch = currentPath.match(/^\/one\/([a-f0-9]+)$/)
   const isPublicEmergencyRoute = Boolean(emergencyTokenMatch)
+  const isVerifyRoute = currentPath === "/verify"
+  const isResetPasswordRoute = currentPath === "/reset-password"
+  const verificationTokenFromUrl = searchParams.get("verifyToken") ?? (isVerifyRoute ? searchParams.get("token") : null)
+  const resetTokenFromUrl = searchParams.get("resetToken") ?? (isResetPasswordRoute ? searchParams.get("token") : null)
 
   const [accessToken, setAccessToken] = useState<string | null>(() =>
     isPublicEmergencyRoute ? null : localStorage.getItem(STORAGE_KEYS.accessToken)
@@ -188,10 +193,7 @@ export function App() {
       return
     }
 
-    const params = new URLSearchParams(window.location.search)
-    const verifyToken = params.get("verifyToken")
-
-    if (!verifyToken || emailVerificationState.status !== "idle") {
+    if (!verificationTokenFromUrl || emailVerificationState.status !== "idle") {
       return
     }
 
@@ -201,7 +203,7 @@ export function App() {
       setEmailVerificationState({ status: "loading", message: "Verifying your email..." })
 
       try {
-        const response = await verifyEmailToken(verifyToken)
+        const response = await verifyEmailToken(verificationTokenFromUrl)
         if (!isMounted) return
 
         const message = response.message || "Your email has been verified. You can sign in now."
@@ -228,7 +230,7 @@ export function App() {
     return () => {
       isMounted = false
     }
-  }, [accessToken, emailVerificationState.status, isPublicEmergencyRoute, showAuthNotification])
+  }, [accessToken, emailVerificationState.status, isPublicEmergencyRoute, showAuthNotification, verificationTokenFromUrl])
 
   useEffect(() => {
     if (!authNotification) {
@@ -1124,15 +1126,11 @@ export function App() {
   }
 
   if (!accessToken) {
-    // Check URL for reset token
-    const urlParams = new URLSearchParams(window.location.search)
-    const token = urlParams.get("resetToken")
-
-    if (token || resetPasswordToken) {
+    if (resetTokenFromUrl || resetPasswordToken) {
       return (
         <div className="flex h-svh flex-col items-center justify-center overflow-hidden bg-muted p-4 md:p-6">
           <ResetPasswordForm
-            token={token || resetPasswordToken || ""}
+            token={resetTokenFromUrl || resetPasswordToken || ""}
             onSuccess={() => {
               setResetPasswordToken(null)
               setAuthMode("login")

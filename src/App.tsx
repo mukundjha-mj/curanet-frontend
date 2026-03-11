@@ -8,6 +8,7 @@ import { ProfileModal } from "@/components/profile-modal"
 import { ProfileMenu } from "@/components/profile-menu"
 import { ForgotPasswordModal } from "@/components/forgot-password-modal"
 import { ResetPasswordForm } from "@/components/reset-password-form"
+import { AuthStatusToast } from "@/components/auth-status-toast"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -94,7 +95,12 @@ export function App() {
   const [authMode, setAuthMode] = useState<"login" | "signup">("login")
   const [authErrors, setAuthErrors] = useState<string[]>([])
   const [showAuthServerError, setShowAuthServerError] = useState(false)
-  const [authInfo, setAuthInfo] = useState<string | null>(null)
+  const [authNotification, setAuthNotification] = useState<{
+    id: number
+    title: string
+    message: string
+  } | null>(null)
+  const [isAuthNotificationVisible, setIsAuthNotificationVisible] = useState(false)
   const [loading, setLoading] = useState(false)
   const [dashboard, setDashboard] = useState<DashboardData | null>(null)
   const [dashboardError, setDashboardError] = useState<string | null>(null)
@@ -148,7 +154,15 @@ export function App() {
   const [accessLogs, setAccessLogs] = useState<ShareAccessLogsResponse["data"] | null>(null)
   const [loadingAccessLogs, setLoadingAccessLogs] = useState(false)
 
-  const clearAuthAndRedirectToLogin = (message?: string) => {
+  const showAuthNotification = useCallback((title: string, message: string) => {
+    setAuthNotification({
+      id: Date.now(),
+      title,
+      message,
+    })
+  }, [])
+
+  const clearAuthAndRedirectToLogin = useCallback((message?: string) => {
     setAccessToken(null)
     setRefreshToken(null)
     setDashboard(null)
@@ -156,12 +170,14 @@ export function App() {
     setActivePath("/dashboard/overview")
     setAuthMode("login")
     setAuthErrors([])
-    setAuthInfo(message ?? null)
+    if (message) {
+      showAuthNotification("Notice", message)
+    }
     setDashboardError(null)
     localStorage.removeItem(STORAGE_KEYS.accessToken)
     localStorage.removeItem(STORAGE_KEYS.refreshToken)
     window.history.replaceState({}, "", "/")
-  }
+  }, [showAuthNotification])
 
   useEffect(() => {
     if (isPublicEmergencyRoute) {
@@ -188,12 +204,14 @@ export function App() {
         const response = await verifyEmailToken(verifyToken)
         if (!isMounted) return
 
+        const message = response.message || "Your email has been verified. You can sign in now."
         setEmailVerificationState({
           status: "success",
-          message: response.message || "Email verified successfully. Please sign in.",
+          message,
         })
         setAuthMode("login")
-        setAuthInfo(response.message || "Email verified successfully. Please sign in.")
+        setAuthErrors([])
+        showAuthNotification("Email verified", message)
       } catch (error) {
         if (!isMounted) return
 
@@ -210,7 +228,28 @@ export function App() {
     return () => {
       isMounted = false
     }
-  }, [accessToken, emailVerificationState.status, isPublicEmergencyRoute])
+  }, [accessToken, emailVerificationState.status, isPublicEmergencyRoute, showAuthNotification])
+
+  useEffect(() => {
+    if (!authNotification) {
+      return
+    }
+
+    setIsAuthNotificationVisible(true)
+
+    const hideTimer = window.setTimeout(() => {
+      setIsAuthNotificationVisible(false)
+    }, 4200)
+
+    const removeTimer = window.setTimeout(() => {
+      setAuthNotification((current) => (current?.id === authNotification.id ? null : current))
+    }, 4550)
+
+    return () => {
+      window.clearTimeout(hideTimer)
+      window.clearTimeout(removeTimer)
+    }
+  }, [authNotification])
 
   useEffect(() => {
     if (isPublicEmergencyRoute) {
@@ -257,7 +296,7 @@ export function App() {
     }
 
     void load()
-  }, [accessToken, refreshToken, isPublicEmergencyRoute])
+  }, [accessToken, clearAuthAndRedirectToLogin, refreshToken, isPublicEmergencyRoute])
 
   useEffect(() => {
     if (isPublicEmergencyRoute || !accessToken) {
@@ -292,7 +331,7 @@ export function App() {
     return () => {
       isMounted = false
     }
-  }, [accessToken, isPublicEmergencyRoute])
+  }, [accessToken, clearAuthAndRedirectToLogin, isPublicEmergencyRoute])
 
   const handleLogin = async ({
     email,
@@ -303,7 +342,6 @@ export function App() {
   }) => {
     setAuthErrors([])
     setShowAuthServerError(false)
-    setAuthInfo(null)
     setLoading(true)
 
     try {
@@ -345,7 +383,6 @@ export function App() {
   }) => {
     setAuthErrors([])
     setShowAuthServerError(false)
-    setAuthInfo(null)
 
     const validationErrors: string[] = []
     if (!name.trim()) {
@@ -369,7 +406,7 @@ export function App() {
 
     setLoading(true)
     try {
-      const response = await registerUser({
+      await registerUser({
         name: name.trim(),
         email,
         phone,
@@ -378,7 +415,11 @@ export function App() {
       })
 
       setAuthMode("login")
-      setAuthInfo(response.message || "Registration successful. Please sign in.")
+      setAuthErrors([])
+      showAuthNotification(
+        "Verification email sent",
+        "Please verify your email before signing in."
+      )
     } catch (error) {
       setShowAuthServerError(false)
       setAuthErrors(getApiErrorMessages(error, "Signup failed"))
@@ -1096,7 +1137,7 @@ export function App() {
               setResetPasswordToken(null)
               setAuthMode("login")
               setAuthErrors([])
-              setAuthInfo("Password reset successful! You can now log in.")
+              showAuthNotification("Password updated", "Password reset successful. You can sign in now.")
               // Remove token from URL
               window.history.replaceState({}, "", "/")
             }}
@@ -1113,14 +1154,11 @@ export function App() {
 
     return (
       <div className="flex h-svh flex-col items-center justify-center overflow-hidden p-4 md:p-6" style={{ background: "linear-gradient(135deg, #0a0f1e 0%, #0d1b3e 30%, #0f2460 60%, #1a3a7a 100%)" }}>
-        {emailVerificationState.status !== "idle" ? (
-          <div className="mb-4 w-full max-w-sm rounded-xl border bg-card p-4 text-sm md:max-w-4xl">
-            <p className="font-medium">Email verification</p>
-            <p className="mt-1 text-muted-foreground">
-              {emailVerificationState.message ?? "Preparing verification..."}
-            </p>
-          </div>
-        ) : null}
+        <AuthStatusToast
+          open={Boolean(authNotification) && isAuthNotificationVisible}
+          title={authNotification?.title ?? ""}
+          message={authNotification?.message ?? ""}
+        />
         <div className="w-full max-w-sm md:max-w-4xl">
           {authMode === "login" ? (
             <LoginForm
@@ -1128,12 +1166,11 @@ export function App() {
               loading={loading}
               errors={authErrors}
               serverErrorMode={showAuthServerError}
-              info={authInfo}
+              info={null}
               onSwitchToSignup={() => {
                 setAuthMode("signup")
                 setAuthErrors([])
                 setShowAuthServerError(false)
-                setAuthInfo(null)
               }}
               onForgotPassword={() => setForgotPasswordOpen(true)}
             />
@@ -1142,7 +1179,7 @@ export function App() {
               onFormSubmit={handleSignup}
               loading={loading}
               errors={authErrors}
-              info={authInfo}
+              info={null}
               onSwitchToLogin={() => {
                 setAuthMode("login")
                 setAuthErrors([])

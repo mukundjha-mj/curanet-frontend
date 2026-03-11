@@ -1158,6 +1158,20 @@ export function App() {
           message={authNotification?.message ?? ""}
         />
         <div className="w-full max-w-sm md:max-w-4xl">
+          {emailVerificationState.status !== "idle" && emailVerificationState.message ? (
+            <div
+              className={[
+                "mb-4 rounded-xl border px-4 py-3 text-sm shadow",
+                emailVerificationState.status === "success"
+                  ? "border-emerald-400/40 bg-emerald-500/15 text-emerald-100"
+                  : emailVerificationState.status === "error"
+                    ? "border-red-400/40 bg-red-500/15 text-red-100"
+                    : "border-cyan-400/40 bg-cyan-500/15 text-cyan-100",
+              ].join(" ")}
+            >
+              {emailVerificationState.message}
+            </div>
+          ) : null}
           {authMode === "login" ? (
             <LoginForm
               onFormSubmit={handleLogin}

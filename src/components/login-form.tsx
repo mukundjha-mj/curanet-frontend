@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { Eye, EyeOff } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { AuthVisualPanel } from "@/components/auth-visual-panel"
@@ -42,6 +43,7 @@ export function LoginForm({
   const [emailValue, setEmailValue] = useState("")
   const [phoneDigits, setPhoneDigits] = useState("")
   const [passwordValue, setPasswordValue] = useState("")
+  const [showPassword, setShowPassword] = useState(false)
 
   const isPhoneValid = phoneDigits.length === 10
   const canSubmit =
@@ -152,14 +154,23 @@ export function LoginForm({
                     Forgot your password?
                   </a>
                 </div>
-                <Input
-                  id="password"
-                  name="password"
-                  type="password"
-                  required
-                  value={passwordValue}
-                  onChange={(e) => setPasswordValue(e.target.value)}
-                />
+                <div className="relative">
+                  <Input
+                    id="password"
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    required
+                    value={passwordValue}
+                    onChange={(e) => setPasswordValue(e.target.value)}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  >
+                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
+                </div>
               </Field>
               <Field>
                 <Button type="submit" disabled={!canSubmit}>

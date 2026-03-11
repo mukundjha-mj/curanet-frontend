@@ -261,7 +261,7 @@ export function App() {
 
     const hideTimer = window.setTimeout(() => {
       setIsAuthNotificationVisible(false)
-    }, 4200)
+    }, 5000)
 
     const removeTimer = window.setTimeout(() => {
       setAuthNotification((current) => (current?.id === authNotification.id ? null : current))
@@ -1178,32 +1178,6 @@ export function App() {
           message={authNotification?.message ?? ""}
         />
         <div className="w-full max-w-sm md:max-w-4xl">
-          {emailVerificationState.status !== "idle" && emailVerificationState.message ? (
-            <div
-              className={[
-                "mb-4 overflow-hidden rounded-2xl border shadow-2xl ring-1 ring-white/10",
-                emailVerificationState.status === "success"
-                  ? "border-cyan-300/35 bg-slate-950/90 text-slate-100"
-                  : emailVerificationState.status === "error"
-                    ? "border-red-400/45 bg-slate-950/90 text-red-100"
-                    : "border-cyan-400/45 bg-slate-950/90 text-cyan-100",
-              ].join(" ")}
-            >
-              <div
-                className={[
-                  "h-1 w-full",
-                  emailVerificationState.status === "success"
-                    ? "bg-linear-to-r from-cyan-400 via-blue-500 to-indigo-500"
-                    : emailVerificationState.status === "error"
-                      ? "bg-linear-to-r from-red-500 via-rose-500 to-orange-500"
-                      : "bg-linear-to-r from-cyan-400 via-blue-500 to-indigo-500",
-                ].join(" ")}
-              />
-              <div className="px-4 py-3.5 text-sm leading-6 md:px-5">
-                {emailVerificationState.message}
-              </div>
-            </div>
-          ) : null}
           {authMode === "login" ? (
             <LoginForm
               onFormSubmit={handleLogin}

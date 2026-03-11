@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { Eye, EyeOff } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { AuthVisualPanel } from "@/components/auth-visual-panel"
@@ -40,6 +41,8 @@ export function SignupForm({
   onSwitchToLogin?: () => void
 }) {
   const [phoneDigits, setPhoneDigits] = useState("")
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const isPhoneValidOrEmpty = phoneDigits.length === 0 || phoneDigits.length === 10
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -52,7 +55,7 @@ export function SignupForm({
       phone: phoneDigits.length === 10 ? `+91${phoneDigits}` : undefined,
       password: String(formData.get("password") ?? ""),
       confirmPassword: String(formData.get("confirmPassword") ?? ""),
-      role: (String(formData.get("role") ?? "patient") as UserRole),
+      role: "patient" as UserRole,
     }
 
     await onFormSubmit(values)
@@ -113,31 +116,44 @@ export function SignupForm({
               </Field>
 
               <Field>
-                <FieldLabel htmlFor="role">Role</FieldLabel>
-                <select
-                  id="role"
-                  name="role"
-                  defaultValue="patient"
-                  className="h-8 w-full rounded-lg border border-input bg-transparent px-2.5 text-sm"
-                >
-                  <option value="patient">Patient</option>
-                  <option value="doctor">Doctor</option>
-                  <option value="pharmacy">Pharmacy</option>
-                  <option value="admin">Admin</option>
-                </select>
-              </Field>
-
-              <Field>
                 <Field className="grid grid-cols-2 gap-3">
                   <Field>
                     <FieldLabel htmlFor="password">Password</FieldLabel>
-                    <Input id="password" name="password" type="password" required />
+                    <div className="relative">
+                      <Input
+                        id="password"
+                        name="password"
+                        type={showPassword ? "text" : "password"}
+                        required
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                      >
+                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                      </button>
+                    </div>
                   </Field>
                   <Field>
                     <FieldLabel htmlFor="confirm-password">
                       Confirm Password
                     </FieldLabel>
-                    <Input id="confirm-password" name="confirmPassword" type="password" required />
+                    <div className="relative">
+                      <Input
+                        id="confirm-password"
+                        name="confirmPassword"
+                        type={showConfirmPassword ? "text" : "password"}
+                        required
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                      >
+                        {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                      </button>
+                    </div>
                   </Field>
                 </Field>
                 <FieldDescription>

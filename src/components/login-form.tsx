@@ -24,6 +24,7 @@ export function LoginForm({
   loading = false,
   errors,
   info,
+  serverErrorMode = false,
   onSwitchToSignup,
   onForgotPassword,
   className,
@@ -33,6 +34,7 @@ export function LoginForm({
   loading?: boolean
   errors?: string[]
   info?: string | null
+  serverErrorMode?: boolean
   onSwitchToSignup?: () => void
   onForgotPassword?: () => void
 }) {
@@ -165,7 +167,17 @@ export function LoginForm({
                 </Button>
               </Field>
               {info ? <FieldDescription>{info}</FieldDescription> : null}
-              {errors?.length ? (
+              {serverErrorMode ? (
+                <div className="rounded-md border border-red-500/40 bg-red-500/10 p-4 text-left">
+                  <p className="text-lg font-semibold text-red-600 dark:text-red-400">500 Internal Server Error</p>
+                  <p className="mt-1 text-sm text-red-600/90 dark:text-red-300/90">
+                    We are unable to process your request right now. Please try again in a few minutes.
+                  </p>
+                  <p className="mt-2 text-xs text-red-600/80 dark:text-red-300/80">
+                    If this issue continues, contact support.
+                  </p>
+                </div>
+              ) : errors?.length ? (
                 <FieldError errors={errors.map((message) => ({ message }))} />
               ) : null}
               <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">

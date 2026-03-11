@@ -93,6 +93,7 @@ export function App() {
   )
   const [authMode, setAuthMode] = useState<"login" | "signup">("login")
   const [authErrors, setAuthErrors] = useState<string[]>([])
+  const [showAuthServerError, setShowAuthServerError] = useState(false)
   const [authInfo, setAuthInfo] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [dashboard, setDashboard] = useState<DashboardData | null>(null)
@@ -301,6 +302,7 @@ export function App() {
     password: string
   }) => {
     setAuthErrors([])
+    setShowAuthServerError(false)
     setAuthInfo(null)
     setLoading(true)
 
@@ -314,7 +316,13 @@ export function App() {
         localStorage.setItem(STORAGE_KEYS.refreshToken, response.refreshToken)
       }
     } catch (error) {
-      setAuthErrors(getApiErrorMessages(error, "Login failed"))
+      if (error instanceof ApiError && (error.status === 0 || error.status >= 500)) {
+        setShowAuthServerError(true)
+        setAuthErrors(["Internal server error. Please try again later."])
+      } else {
+        setShowAuthServerError(false)
+        setAuthErrors(getApiErrorMessages(error, "Login failed"))
+      }
     } finally {
       setLoading(false)
     }
@@ -336,6 +344,7 @@ export function App() {
     role: "patient" | "doctor" | "pharmacy" | "admin"
   }) => {
     setAuthErrors([])
+    setShowAuthServerError(false)
     setAuthInfo(null)
 
     const validationErrors: string[] = []
@@ -353,6 +362,7 @@ export function App() {
     }
 
     if (validationErrors.length > 0) {
+      setShowAuthServerError(false)
       setAuthErrors(validationErrors)
       return
     }
@@ -370,6 +380,7 @@ export function App() {
       setAuthMode("login")
       setAuthInfo(response.message || "Registration successful. Please sign in.")
     } catch (error) {
+      setShowAuthServerError(false)
       setAuthErrors(getApiErrorMessages(error, "Signup failed"))
     } finally {
       setLoading(false)
@@ -1116,10 +1127,12 @@ export function App() {
               onFormSubmit={handleLogin}
               loading={loading}
               errors={authErrors}
+              serverErrorMode={showAuthServerError}
               info={authInfo}
               onSwitchToSignup={() => {
                 setAuthMode("signup")
                 setAuthErrors([])
+                setShowAuthServerError(false)
                 setAuthInfo(null)
               }}
               onForgotPassword={() => setForgotPasswordOpen(true)}

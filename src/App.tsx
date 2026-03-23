@@ -9,6 +9,11 @@ import { ProfileMenu } from "@/components/profile-menu"
 import { ForgotPasswordModal } from "@/components/forgot-password-modal"
 import { ResetPasswordForm } from "@/components/reset-password-form"
 import { AuthStatusToast } from "@/components/auth-status-toast"
+import { ContactPage } from "@/components/ui/contact-page"
+import { Demo } from "@/components/ui/demo"
+import { FeaturesPage } from "@/components/ui/features-page"
+import { HowItWorksPage } from "@/components/ui/how-it-works-page"
+import { SecurityPage } from "@/components/ui/security-page"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -36,6 +41,7 @@ import {
   requestAppointment,
   searchDoctors,
   updateAppointment,
+  updateProfile,
   cancelAppointment,
   createEmergencyShare,
   listEmergencyShares,
@@ -45,7 +51,7 @@ import {
   registerUser,
   refreshAccessToken,
 } from "@/lib/api/curanet"
-import { ApiError, API_BASE_URL, getApiErrorMessages } from "@/lib/api/client"
+import { ApiError, getApiErrorMessages } from "@/lib/api/client"
 import { STORAGE_KEYS } from "@/lib/config"
 import type { DashboardData, EmergencyShare, CreateEmergencyShareResponse, ShareAccessLogsResponse } from "@/lib/api/types"
 
@@ -99,7 +105,9 @@ export function App() {
   const [refreshToken, setRefreshToken] = useState<string | null>(() =>
     isPublicEmergencyRoute ? null : localStorage.getItem(STORAGE_KEYS.refreshToken)
   )
-  const [authMode, setAuthMode] = useState<"login" | "signup">("login")
+  const [authMode, setAuthMode] = useState<"login" | "signup">(
+    currentPath === "/signup" ? "signup" : "login"
+  )
   const [authErrors, setAuthErrors] = useState<string[]>([])
   const [showAuthServerError, setShowAuthServerError] = useState(false)
   const [authNotification, setAuthNotification] = useState<{
@@ -1170,6 +1178,31 @@ export function App() {
       )
     }
 
+    if (currentPath === "/") {
+      return <Demo />
+    }
+
+    if (currentPath === "/features") {
+      return <FeaturesPage />
+    }
+
+    if (currentPath === "/security") {
+      return <SecurityPage />
+    }
+
+    if (currentPath === "/how-security-works") {
+      return <HowItWorksPage />
+    }
+
+    if (currentPath === "/how-it-works") {
+      window.history.replaceState({}, "", "/how-security-works")
+      return <HowItWorksPage />
+    }
+
+    if (currentPath === "/contact") {
+      return <ContactPage />
+    }
+
     return (
       <div className="flex h-svh flex-col items-center justify-center overflow-hidden p-4 md:p-6" style={{ background: "linear-gradient(135deg, #0a0f1e 0%, #0d1b3e 30%, #0f2460 60%, #1a3a7a 100%)" }}>
         <AuthStatusToast
@@ -1329,18 +1362,7 @@ export function App() {
         dashboard={dashboard}
         onSave={async (updates) => {
           if (!accessToken) return
-          const response = await fetch(`${API_BASE_URL}/api/profile`, {
-            method: "PATCH",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${accessToken}`,
-            },
-            credentials: "include",
-            body: JSON.stringify(updates),
-          })
-          if (!response.ok) {
-            throw new Error("Failed to update profile")
-          }
+          await updateProfile(accessToken, updates)
           // Refresh dashboard data after update
           const data = await getDashboardData(accessToken)
           setDashboard(data)

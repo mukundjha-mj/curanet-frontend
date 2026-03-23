@@ -91,11 +91,11 @@ export function Dashboard() {
           <div className="px-2 py-1">
             <div className="flex items-center gap-2 rounded-md bg-sidebar-accent px-2 py-2">
               <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-medium">
-                MK
+                U
               </div>
               <div className="flex flex-col text-xs">
-                <span className="font-medium">Mukund</span>
-                <span className="text-muted-foreground">Admin</span>
+                <span className="font-medium">User</span>
+                <span className="text-muted-foreground">Role</span>
               </div>
             </div>
           </div>

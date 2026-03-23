@@ -227,6 +227,20 @@ export type UpdateNotificationSettingsPayload = Partial<
   >
 >
 
+export type ContactRequestPayload = {
+  fullName: string
+  email: string
+  phone?: string
+  organization?: string
+  subject: string
+  message: string
+}
+
+export type ContactRequestResponse = {
+  success: boolean
+  message: string
+}
+
 export type Appointment = {
   id: string
   patientId: string

@@ -42,6 +42,8 @@ import type {
   UpdateUserConsentSettingsPayload,
   UserConsentSettingsResponse,
   UpdateNotificationSettingsPayload,
+  ContactRequestPayload,
+  ContactRequestResponse,
 } from "@/lib/api/types"
 
 export async function loginWithEmail(email: string, password: string): Promise<LoginResponse> {
@@ -159,6 +161,15 @@ export async function updateNotificationSettings(
   return apiRequest<NotificationSettingsResponse>("/api/user/settings/notifications", {
     method: "PUT",
     token,
+    body: payload,
+  })
+}
+
+export async function submitContactRequest(
+  payload: ContactRequestPayload
+): Promise<ContactRequestResponse> {
+  return apiRequest<ContactRequestResponse>("/api/contact", {
+    method: "POST",
     body: payload,
   })
 }

@@ -4,6 +4,7 @@ import { createRoot } from "react-dom/client"
 import "./index.css"
 import App from "./App.tsx"
 import { ErrorBoundary } from "@/components/error-boundary"
+import { SmoothScrolling } from "@/components/smooth-scrolling"
 import { ThemeProvider } from "@/components/theme-provider.tsx"
 import { TooltipProvider } from "@/components/ui/tooltip"
 
@@ -25,7 +26,9 @@ createRoot(document.getElementById("root")!).render(
     <ErrorBoundary>
       <ThemeProvider>
         <TooltipProvider>
-          <App />
+          <SmoothScrolling>
+            <App />
+          </SmoothScrolling>
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>

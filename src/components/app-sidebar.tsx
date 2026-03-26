@@ -3,7 +3,6 @@
 import * as React from "react"
 
 import { NavMain } from "@/components/nav-main"
-import { NavProjects } from "@/components/nav-projects"
 import { NavSecondary } from "@/components/nav-secondary"
 import { NavUser } from "@/components/nav-user"
 import {
@@ -24,9 +23,6 @@ import {
   Settings2Icon, 
   LifeBuoyIcon, 
   SendIcon, 
-  UsersIcon, 
-  FolderIcon,
-  HeartPulseIcon 
 } from "lucide-react"
 
 const data = {
@@ -95,29 +91,6 @@ const data = {
       ),
     },
   ],
-  projects: [
-    {
-      name: "My Health Data",
-      url: "/projects/health-data",
-      icon: (
-        <HeartPulseIcon />
-      ),
-    },
-    {
-      name: "Family Members",
-      url: "/projects/family",
-      icon: (
-        <UsersIcon />
-      ),
-    },
-    {
-      name: "Shared Records",
-      url: "/projects/shared",
-      icon: (
-        <FolderIcon />
-      ),
-    },
-  ],
 }
 
 type AppSidebarUser = {
@@ -181,11 +154,6 @@ export function AppSidebar({
           activePath={activePath}
           onNavigate={(path) => onNavigate?.(path)}
           onItemHover={onItemHover}
-        />
-        <NavProjects
-          projects={data.projects}
-          activePath={activePath}
-          onNavigate={(path) => onNavigate?.(path)}
         />
         <NavSecondary
           items={data.navSecondary}

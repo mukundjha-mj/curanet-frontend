@@ -111,14 +111,28 @@ export function HeroSection() {
               <img
                 src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=3276&q=80"
                 alt="Healthcare professionals collaborating"
-                className="absolute inset-x-0 top-56 -z-20 hidden lg:top-32 dark:block"
+                className="absolute inset-x-0 top-28 -z-20 h-[30rem] w-full object-cover opacity-35 dark:block lg:hidden"
                 width={3276}
                 height={4095}
               />
               <img
                 src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=3276&q=80"
                 alt="Patient consultation and digital healthcare workflow"
-                className="absolute inset-x-0 top-56 -z-20 hidden lg:top-32 dark:hidden"
+                className="absolute inset-x-0 top-28 -z-20 h-[30rem] w-full object-cover opacity-35 dark:hidden lg:hidden"
+                width={3276}
+                height={4095}
+              />
+              <img
+                src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=3276&q=80"
+                alt="Healthcare professionals collaborating"
+                className="absolute inset-x-0 top-56 -z-20 hidden dark:lg:block lg:top-32"
+                width={3276}
+                height={4095}
+              />
+              <img
+                src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=3276&q=80"
+                alt="Patient consultation and digital healthcare workflow"
+                className="absolute inset-x-0 top-56 -z-20 hidden lg:block lg:top-32 dark:lg:hidden"
                 width={3276}
                 height={4095}
               />
@@ -151,7 +165,7 @@ export function HeroSection() {
                     </div>
                   </Link>
 
-                  <h1 className="mx-auto mt-8 max-w-5xl text-balance text-4xl font-semibold leading-tight tracking-tight sm:text-5xl md:text-6xl lg:mt-14 xl:text-7xl">
+                  <h1 className="mx-auto mt-8 max-w-5xl text-balance text-3xl font-semibold leading-tight tracking-tight sm:text-5xl md:text-6xl lg:mt-14 xl:text-7xl">
                     Secure every step from daily care to emergency access
                   </h1>
                   <p className="mx-auto mt-6 max-w-3xl text-balance text-base leading-relaxed text-muted-foreground sm:text-lg">
@@ -209,13 +223,13 @@ export function HeroSection() {
                 ...transitionVariants,
               }}
             >
-              <div className="relative -mr-56 mt-8 overflow-hidden px-2 sm:mr-0 sm:mt-12 md:mt-20">
+              <div className="relative mt-8 overflow-hidden px-2 sm:mt-12 md:mt-20">
                 <div
                   aria-hidden
                   className="absolute inset-0 z-10 bg-gradient-to-b from-transparent from-35% to-background"
                 />
-                <div className="relative mx-auto max-w-6xl overflow-hidden rounded-2xl border bg-background p-4 shadow-lg shadow-zinc-950/10 ring-1 ring-background">
-                  <div className="relative z-[2] aspect-15/8 overflow-hidden rounded-2xl border bg-background p-4">
+                <div className="relative mx-auto max-w-6xl overflow-hidden rounded-2xl border bg-background p-3 shadow-lg shadow-zinc-950/10 ring-1 ring-background sm:p-4">
+                  <div className="relative z-[2] min-h-[34rem] overflow-hidden rounded-2xl border bg-background p-3 sm:min-h-0 sm:p-4 md:aspect-15/8">
                     <div className="absolute inset-0 opacity-8 dark:opacity-12">
                       <img
                         className="h-full w-full object-cover"
@@ -226,7 +240,7 @@ export function HeroSection() {
                       />
                     </div>
 
-                    <div className="relative grid h-full grid-cols-1 gap-4 md:grid-cols-5">
+                    <div className="relative grid h-full grid-cols-1 gap-3 md:grid-cols-5 md:gap-4">
                       <div className="rounded-xl bg-muted/50 p-4 md:col-span-2">
                         <div className="mb-3 flex items-center gap-2">
                           <img src="/CuraNet.png" alt="CuraNet" className="size-4" />
@@ -261,7 +275,7 @@ export function HeroSection() {
                       </div>
 
                       <div className="grid gap-3 md:col-span-3">
-                        <div className="grid grid-cols-2 gap-3">
+                        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                           <div className="rounded-xl bg-muted/50 p-4">
                             <div className="mb-1 inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-[11px] text-muted-foreground">
                               <Siren className="size-3" /> Emergency Link
@@ -289,7 +303,7 @@ export function HeroSection() {
                         <div className="rounded-xl bg-muted/50 p-4">
                           <p className="mb-2 text-sm text-muted-foreground">Recent activity</p>
                           <div className="space-y-2 text-xs">
-                            <div className="flex items-center justify-between rounded-md border bg-background px-2 py-1.5">
+                            <div className="flex flex-col gap-1 rounded-md border bg-background px-2 py-1.5 sm:flex-row sm:items-center sm:justify-between">
                               <span className="inline-flex items-center gap-1.5">
                                 <HeartPulse className="size-3.5 text-pink-600 dark:text-pink-300" /> Observation reviewed
                               </span>
@@ -297,7 +311,7 @@ export function HeroSection() {
                                 <Clock3 className="size-3" /> 12m ago
                               </span>
                             </div>
-                            <div className="flex items-center justify-between rounded-md border bg-background px-2 py-1.5">
+                            <div className="flex flex-col gap-1 rounded-md border bg-background px-2 py-1.5 sm:flex-row sm:items-center sm:justify-between">
                               <span className="inline-flex items-center gap-1.5">
                                 <ShieldCheck className="size-3.5 text-cyan-700 dark:text-cyan-300" /> Consent granted
                               </span>
@@ -305,7 +319,7 @@ export function HeroSection() {
                                 <Clock3 className="size-3" /> 27m ago
                               </span>
                             </div>
-                            <div className="flex items-center justify-between rounded-md border bg-background px-2 py-1.5">
+                            <div className="flex flex-col gap-1 rounded-md border bg-background px-2 py-1.5 sm:flex-row sm:items-center sm:justify-between">
                               <span className="inline-flex items-center gap-1.5">
                                 <CalendarClock className="size-3.5 text-amber-700 dark:text-amber-300" /> Appointment confirmed
                               </span>

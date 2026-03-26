@@ -72,7 +72,7 @@ const features: FeatureItem[] = [
 
 export function FeatureHighlightsSection() {
   return (
-    <section className="bg-background px-6 pb-16 pt-6 md:pb-24 md:pt-8">
+    <section className="bg-background px-6 pb-8 pt-6 md:pb-12 md:pt-8">
       <div className="mx-auto max-w-7xl">
         <div className="mb-8 max-w-2xl md:mb-10">
           <p className="text-sm font-medium uppercase tracking-[0.28em] text-muted-foreground">

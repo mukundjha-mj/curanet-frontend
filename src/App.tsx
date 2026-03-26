@@ -99,6 +99,24 @@ export function App() {
   const verificationTokenFromUrl = searchParams.get("verifyToken") ?? (isVerifyRoute ? searchParams.get("token") : null)
   const resetTokenFromUrl = searchParams.get("resetToken") ?? (isResetPasswordRoute ? searchParams.get("token") : null)
 
+  useEffect(() => {
+    const publicIndexablePaths = new Set(["/", "/features", "/blog", "/security", "/contact"])
+    const robotsContent = publicIndexablePaths.has(currentPath)
+      ? "index, follow"
+      : "noindex, nofollow, noarchive"
+
+    const selector = 'meta[name="robots"]'
+    const existingNode = document.head.querySelector(selector) as HTMLMetaElement | null
+    const node = existingNode ?? document.createElement("meta")
+
+    node.setAttribute("name", "robots")
+    node.setAttribute("content", robotsContent)
+
+    if (!existingNode) {
+      document.head.appendChild(node)
+    }
+  }, [currentPath])
+
   const [accessToken, setAccessToken] = useState<string | null>(() =>
     isPublicEmergencyRoute ? null : localStorage.getItem(STORAGE_KEYS.accessToken)
   )

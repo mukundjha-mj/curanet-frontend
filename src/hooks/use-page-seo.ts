@@ -140,5 +140,5 @@ export function usePageSeo({
         jsonLdScript.textContent = previousJsonLdContent
       }
     }
-  }, [description, jsonLd, jsonLdId, ogImagePath, path, title])
+  }, [description, jsonLd, jsonLdId, ogImageAlt, ogImagePath, path, title])
 }

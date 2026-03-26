@@ -12,8 +12,8 @@ import {
 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import { Footerdemo } from "@/components/ui/footer-section"
-import { HeroHeader } from "@/components/ui/hero-section-1"
+import { FooterSection } from "@/components/ui/footer-section"
+import { HeroHeader } from "@/components/ui/hero-section"
 import { usePageSeo } from "@/hooks/use-page-seo"
 
 const securityPillars = [
@@ -76,6 +76,36 @@ const controls = [
     details:
       "Verification and session control support trusted identity posture and help reduce unauthorized session continuation risk.",
   },
+]
+
+const securityLifecycleSteps = [
+  {
+    title: "Identity Proof and Access Start",
+    description:
+      "User entry begins with verification-first identity controls to establish a trusted session baseline.",
+  },
+  {
+    title: "Policy-Bound Authorization",
+    description:
+      "Access decisions are constrained by consent scope, role boundaries, and least-privilege exposure rules.",
+  },
+  {
+    title: "Controlled Sharing Execution",
+    description:
+      "Time-bounded sharing and emergency guardrails reduce persistent exposure while preserving urgent access paths.",
+  },
+  {
+    title: "Audit Review and Response",
+    description:
+      "Every critical action remains reviewable for governance, anomaly triage, and post-incident evidence needs.",
+  },
+]
+
+const securityControlOutcomes = [
+  "Authorization is purpose-bound and expiration-aware.",
+  "Data exposure is reduced through minimum-necessary principles.",
+  "Emergency access remains rapid without becoming permanent.",
+  "Security operations are traceable and governance-ready.",
 ]
 
 const threatPosture = [
@@ -233,6 +263,52 @@ export function SecurityPage() {
           </div>
         </section>
 
+        <section id="how-security-works" className="px-6 pb-8 md:pb-12">
+          <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[1.4fr_1fr]">
+            <div className="rounded-2xl border bg-muted/20 p-6 md:p-10">
+              <p className="text-sm font-medium uppercase tracking-[0.28em] text-muted-foreground">
+                How Security Works
+              </p>
+              <h2 className="mt-3 max-w-5xl text-balance text-2xl font-semibold tracking-tight md:text-4xl">
+                Four execution stages from trusted identity to governance-ready review
+              </h2>
+              <p className="mt-4 max-w-3xl text-base text-muted-foreground md:text-lg">
+                CuraNet security runs as a lifecycle: identity verification,
+                policy-bound authorization, controlled sharing, and audit-ready
+                review so sensitive healthcare access remains measurable and safe.
+              </p>
+
+              <div className="mt-6 grid gap-4 md:grid-cols-2">
+                {securityLifecycleSteps.map((step, index) => (
+                  <article key={step.title} className="rounded-xl border bg-background/80 p-4">
+                    <p className="text-xs font-medium uppercase tracking-[0.22em] text-muted-foreground">
+                      Stage {index + 1}
+                    </p>
+                    <h3 className="mt-2 text-lg font-semibold">{step.title}</h3>
+                    <p className="mt-2 text-sm text-muted-foreground">{step.description}</p>
+                  </article>
+                ))}
+              </div>
+            </div>
+
+            <aside className="rounded-2xl border bg-muted/15 p-6 md:p-8">
+              <div className="mb-4 inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs text-muted-foreground">
+                <BadgeCheck className="size-3.5" /> Security Outcomes
+              </div>
+              <ul className="space-y-3">
+                {securityControlOutcomes.map((item) => (
+                  <li
+                    key={item}
+                    className="rounded-lg border bg-background/70 px-3 py-2 text-sm text-muted-foreground"
+                  >
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </aside>
+          </div>
+        </section>
+
         <section className="px-6 pb-12 md:pb-16">
           <div className="mx-auto max-w-7xl rounded-2xl border bg-gradient-to-r from-muted/30 via-muted/20 to-muted/10 p-6 md:p-10">
             <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
@@ -263,7 +339,7 @@ export function SecurityPage() {
           </div>
         </section>
       </main>
-      <Footerdemo />
+      <FooterSection />
     </div>
   )
 }

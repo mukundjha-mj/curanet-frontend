@@ -40,7 +40,7 @@ const bottomMenuItems = [
   { icon: Settings, label: "Settings", isActive: false },
 ]
 
-export function Dashboard() {
+export function DashboardPage() {
   return (
     <SidebarProvider>
       <Sidebar>

@@ -9,11 +9,11 @@ import { ProfileMenu } from "@/components/profile-menu"
 import { ForgotPasswordModal } from "@/components/forgot-password-modal"
 import { ResetPasswordForm } from "@/components/reset-password-form"
 import { AuthStatusToast } from "@/components/auth-status-toast"
-import { ContactPage } from "@/components/ui/contact-page"
-import { Demo } from "@/components/ui/demo"
-import { FeaturesPage } from "@/components/ui/features-page"
-import { HowItWorksPage } from "@/components/ui/how-it-works-page"
-import { SecurityPage } from "@/components/ui/security-page"
+import { ContactPage } from "@/pages/contact-page"
+import { Home } from "@/pages/home-page"
+import { FeaturesPage } from "@/pages/features-page"
+import { BlogPage } from "@/pages/blog-page"
+import { SecurityPage } from "@/pages/security-page"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -1179,11 +1179,15 @@ export function App() {
     }
 
     if (currentPath === "/") {
-      return <Demo />
+      return <Home />
     }
 
     if (currentPath === "/features") {
       return <FeaturesPage />
+    }
+
+    if (currentPath === "/blog") {
+      return <BlogPage />
     }
 
     if (currentPath === "/security") {
@@ -1191,12 +1195,13 @@ export function App() {
     }
 
     if (currentPath === "/how-security-works") {
-      return <HowItWorksPage />
+      window.history.replaceState({}, "", "/security#how-security-works")
+      return <SecurityPage />
     }
 
     if (currentPath === "/how-it-works") {
-      window.history.replaceState({}, "", "/how-security-works")
-      return <HowItWorksPage />
+      window.history.replaceState({}, "", "/security#how-security-works")
+      return <SecurityPage />
     }
 
     if (currentPath === "/contact") {

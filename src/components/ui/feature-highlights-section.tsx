@@ -70,7 +70,7 @@ const features: FeatureItem[] = [
   },
 ]
 
-export function FeaturesSectionWithHoverEffects() {
+export function FeatureHighlightsSection() {
   return (
     <section className="bg-background px-6 pb-16 pt-6 md:pb-24 md:pt-8">
       <div className="mx-auto max-w-7xl">

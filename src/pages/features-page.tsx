@@ -13,8 +13,8 @@ import {
 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import { Footerdemo } from "@/components/ui/footer-section"
-import { HeroHeader } from "@/components/ui/hero-section-1"
+import { FooterSection } from "@/components/ui/footer-section"
+import { HeroHeader } from "@/components/ui/hero-section"
 import { usePageSeo } from "@/hooks/use-page-seo"
 
 const highlights = [
@@ -161,7 +161,7 @@ export function FeaturesPage() {
                   </a>
                 </Button>
                 <Button asChild variant="outline" className="rounded-xl px-5">
-                  <a href="/how-security-works">See Workflow</a>
+                  <a href="/security#how-security-works">See Workflow</a>
                 </Button>
               </div>
             </div>
@@ -262,7 +262,7 @@ export function FeaturesPage() {
         </section>
       </main>
 
-      <Footerdemo />
+      <FooterSection />
     </div>
   )
 }

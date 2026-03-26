@@ -3,7 +3,7 @@ import { Folder, HeartHandshakeIcon, SparklesIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
-interface DatabaseWithRestApiProps {
+interface CareWorkflowVisualizationProps {
   className?: string
   circleText?: string
   badgeTexts?: {
@@ -20,14 +20,14 @@ interface DatabaseWithRestApiProps {
   lightColor?: string
 }
 
-function DatabaseWithRestApi({
+function CareWorkflowVisualization({
   className,
   circleText,
   badgeTexts,
   buttonTexts,
   title,
   lightColor,
-}: DatabaseWithRestApiProps) {
+}: CareWorkflowVisualizationProps) {
   const resolvedBadgeTexts = {
     first: badgeTexts?.first ?? "RECORD",
     second: badgeTexts?.second ?? "BOOK",
@@ -215,9 +215,9 @@ function DatabaseWithRestApi({
       </svg>
       <div className="absolute bottom-20 flex w-full flex-col items-center md:bottom-20">
         <div className="absolute bottom-1 h-[100px] w-[62%] rounded-lg bg-accent/30" />
-        <div className="absolute -top-3 z-20 flex items-center justify-center rounded-lg border bg-[#101112] px-2 py-1 text-white sm:-top-4 sm:py-1.5">
+        <div className="absolute left-1/2 top-0 z-20 flex max-w-[90%] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-lg border bg-[#101112] px-2 py-1 text-white sm:max-w-[75%] sm:py-1.5">
           <SparklesIcon className="size-3" />
-          <span className="ml-2 text-[10px]">{resolvedTitle}</span>
+          <span className="ml-2 truncate whitespace-nowrap text-[10px]">{resolvedTitle}</span>
         </div>
         <div className="absolute bottom-0 z-30 grid h-[60px] w-[60px] place-items-center rounded-full border-t bg-[#141516] text-xs font-semibold text-white">
           {resolvedCircleText}
@@ -265,7 +265,7 @@ function DatabaseWithRestApi({
   )
 }
 
-export default DatabaseWithRestApi
+export default CareWorkflowVisualization
 
 function DatabaseIcon({ x = 0, y = 0 }: { x?: number; y?: number }) {
   return (

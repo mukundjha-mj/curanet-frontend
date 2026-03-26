@@ -5,8 +5,8 @@ import { Clock3, Mail, MessageSquareHeart, ShieldCheck } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Footerdemo } from "@/components/ui/footer-section"
-import { HeroHeader } from "@/components/ui/hero-section-1"
+import { FooterSection } from "@/components/ui/footer-section"
+import { HeroHeader } from "@/components/ui/hero-section"
 import { getApiErrorMessages } from "@/lib/api/client"
 import { submitContactRequest } from "@/lib/api/curanet"
 import { usePageSeo } from "@/hooks/use-page-seo"
@@ -244,7 +244,7 @@ export function ContactPage() {
           </div>
         </section>
       </main>
-      <Footerdemo />
+      <FooterSection />
     </div>
   )
 }

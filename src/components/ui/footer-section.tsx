@@ -21,7 +21,7 @@ import {
   Twitter,
 } from "lucide-react"
 
-function Footerdemo() {
+function FooterSection() {
   const { theme, setTheme } = useTheme()
   const [isDarkMode, setIsDarkMode] = React.useState(false)
 
@@ -71,9 +71,6 @@ function Footerdemo() {
           <div>
             <h3 className="mb-4 text-lg font-semibold">Explore CuraNet</h3>
             <nav className="space-y-2 text-sm">
-              <a href="/" className="block transition-colors hover:text-primary">
-                Landing Page
-              </a>
               <a href="/signup" className="block transition-colors hover:text-primary">
                 Create Account
               </a>
@@ -181,4 +178,4 @@ function Footerdemo() {
   )
 }
 
-export { Footerdemo }
+export { FooterSection }

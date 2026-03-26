@@ -143,7 +143,8 @@ pnpm build
 
 ## Documentation
 
-- Product-oriented reference: `document.md`
+- Product-oriented reference: `product-documentation.md`
+- Naming rules for files and exports: `NAMING-CONVENTIONS.md`
 
 ## Security and Privacy
 
@@ -155,5 +156,6 @@ pnpm build
 
 1. Create a feature branch.
 2. Make focused changes.
-3. Run `pnpm lint`, `pnpm typecheck`, and `pnpm build`.
-4. Open a pull request with testing notes and screenshots for UI changes.
+3. Follow naming rules in `NAMING-CONVENTIONS.md`.
+4. Run `pnpm lint`, `pnpm typecheck`, and `pnpm build`.
+5. Open a pull request with testing notes and screenshots for UI changes.

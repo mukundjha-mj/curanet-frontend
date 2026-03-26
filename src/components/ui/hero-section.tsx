@@ -151,13 +151,12 @@ export function HeroSection() {
                     </div>
                   </Link>
 
-                  <h1 className="mx-auto mt-8 max-w-4xl text-balance text-6xl md:text-7xl lg:mt-16 xl:text-[5.25rem]">
-                    CuraNet keeps records, appointments, and emergency access in one secure place
+                  <h1 className="mx-auto mt-8 max-w-5xl text-balance text-4xl font-semibold leading-tight tracking-tight sm:text-5xl md:text-6xl lg:mt-14 xl:text-7xl">
+                    Secure every step from daily care to emergency access
                   </h1>
-                  <p className="mx-auto mt-8 max-w-2xl text-balance text-lg">
-                    Built for everyday care coordination and high-urgency moments:
-                    schedule visits, manage consent, and share emergency details
-                    through controlled, auditable links.
+                  <p className="mx-auto mt-6 max-w-3xl text-balance text-base leading-relaxed text-muted-foreground sm:text-lg">
+                    CuraNet helps patients and families coordinate care with
+                    consent-aware visits and secure auditable emergency sharing.
                   </p>
                 </AnimatedGroup>
 
@@ -351,8 +350,8 @@ export function HeroSection() {
 const menuItems = [
   { name: "Home", href: "/" },
   { name: "Features", href: "/features" },
+  { name: "Blog", href: "/blog" },
   { name: "Security", href: "/security" },
-  { name: "How Security Works", href: "/how-security-works" },
   { name: "Contact", href: "/contact" },
 ]
 
@@ -391,7 +390,7 @@ export const HeroHeader = () => {
   }, [])
   return (
     <header>
-      <nav data-state={menuState && "active"} className="group fixed z-20 w-full px-2">
+      <nav data-state={menuState && "active"} className="group fixed z-40 w-full px-2">
         <div
           className={cn(
             "mx-auto mt-2 max-w-6xl px-6 transition-all duration-300 lg:px-12",
@@ -510,9 +509,9 @@ export const HeroHeader = () => {
 
 const Logo = ({ className }: { className?: string }) => {
   return (
-    <div className={cn("flex items-center gap-2", className)}>
-      <img src="/CuraNet.png" alt="CuraNet logo" className="size-6 object-contain" />
-      <span className="text-sm font-semibold tracking-tight">CuraNet</span>
+    <div className={cn("flex items-center gap-2.5", className)}>
+      <img src="/CuraNet.png" alt="CuraNet logo" className="size-7 object-contain" />
+      <span className="text-base font-semibold tracking-tight">CuraNet</span>
     </div>
   )
 }

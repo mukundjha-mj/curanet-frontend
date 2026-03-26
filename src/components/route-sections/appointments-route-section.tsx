@@ -178,51 +178,50 @@ export default function AppointmentsRouteSection({
               setAppointmentError(null)
             }}
             getTomorrowMinDateTime={getTomorrowMinDateTime}
+            pendingContent={(
+              <div className="rounded-xl bg-muted/50 p-4 md:min-h-min">
+                <h3 className="text-lg font-semibold">Pending Appointments ({pendingRows.length})</h3>
+                <div className="mt-3 space-y-2">
+                  {pendingRows.slice(0, 6).map((apt) => {
+                    const editable = canEditPendingAppointment(apt.requestedTime)
+                    return (
+                      <button
+                        key={apt.id}
+                        type="button"
+                        onClick={() => setSelectedAppointment(apt)}
+                        className="w-full rounded-lg border bg-background p-3 text-left transition-colors hover:bg-accent/50"
+                        onMouseEnter={prefetchAppointmentDialog}
+                      >
+                        <p className="font-medium">{apt.reasonForVisit ?? "General consultation"}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {new Date(apt.requestedTime).toLocaleString()} • {apt.status}
+                        </p>
+                        <div className="mt-2 flex items-center gap-2">
+                          <Button
+                            type="button"
+                            size="sm"
+                            variant="outline"
+                            onClick={(event) => {
+                              event.stopPropagation()
+                              handleEditPendingAppointment(apt)
+                            }}
+                            disabled={!editable}
+                          >
+                            Edit
+                          </Button>
+                          {!editable ? (
+                            <p className="text-xs text-muted-foreground">Edit only available for appointments tomorrow or later.</p>
+                          ) : null}
+                        </div>
+                      </button>
+                    )
+                  })}
+                  {pendingRows.length === 0 ? <p className="text-sm text-muted-foreground">No pending appointments.</p> : null}
+                </div>
+              </div>
+            )}
           />
         </Suspense>
-      ) : null}
-
-      {showScheduler ? (
-        <div className="rounded-xl bg-muted/50 p-4 md:min-h-min">
-          <h3 className="text-lg font-semibold">Pending Appointments ({pendingRows.length})</h3>
-          <div className="mt-3 space-y-2">
-            {pendingRows.slice(0, 6).map((apt) => {
-              const editable = canEditPendingAppointment(apt.requestedTime)
-              return (
-                <button
-                  key={apt.id}
-                  type="button"
-                  onClick={() => setSelectedAppointment(apt)}
-                  className="w-full rounded-lg border bg-background p-3 text-left transition-colors hover:bg-accent/50"
-                  onMouseEnter={prefetchAppointmentDialog}
-                >
-                  <p className="font-medium">{apt.reasonForVisit ?? "General consultation"}</p>
-                  <p className="text-sm text-muted-foreground">
-                    {new Date(apt.requestedTime).toLocaleString()} • {apt.status}
-                  </p>
-                  <div className="mt-2 flex items-center gap-2">
-                    <Button
-                      type="button"
-                      size="sm"
-                      variant="outline"
-                      onClick={(event) => {
-                        event.stopPropagation()
-                        handleEditPendingAppointment(apt)
-                      }}
-                      disabled={!editable}
-                    >
-                      Edit
-                    </Button>
-                    {!editable ? (
-                      <p className="text-xs text-muted-foreground">Edit only available for appointments tomorrow or later.</p>
-                    ) : null}
-                  </div>
-                </button>
-              )
-            })}
-            {pendingRows.length === 0 ? <p className="text-sm text-muted-foreground">No pending appointments.</p> : null}
-          </div>
-        </div>
       ) : null}
 
       <div className="rounded-xl bg-muted/50 p-4 md:min-h-min">

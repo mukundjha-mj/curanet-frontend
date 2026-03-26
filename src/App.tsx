@@ -379,6 +379,7 @@ export function App() {
       setAccessToken(response.accessToken)
       setRefreshToken(response.refreshToken ?? null)
       setActivePath("/dashboard/overview")
+      window.history.replaceState({}, "", "/dashboard")
       localStorage.setItem(STORAGE_KEYS.accessToken, response.accessToken)
       if (response.refreshToken) {
         localStorage.setItem(STORAGE_KEYS.refreshToken, response.refreshToken)
